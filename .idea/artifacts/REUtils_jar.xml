@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="REUtils:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/REUtils_jar</output-path>
+    <root id="archive" name="REUtils.jar">
+      <element id="module-output" name="REUtils" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/collections/google-collections/1.0/google-collections-1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/jetbrains/annotations/23.0.0/annotations-23.0.0.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
