@@ -103,5 +103,44 @@ public class IntegerOption extends Option<Integer> {
     }
 }
 ```
+## Using ObjectOption
+
+`ObjectOption` is an option, that can hold any object. You need to write only the serializarion and deserialization of this object using Factory<T,String> and BiConsumer<T,StringBuffer>
+
+```java
+    // Creating our option
+    public static final ObjectOption<Dimension> test = new ObjectOption<>("test", new Dimension(), 
+    // This is a creating factory. It get's string value and parses as Dimension (two integers)
+    args -> {
+        String[] nums = args[0].split(":");
+        int a = RENumbers.parseInteger(nums[0]);
+        int b = RENumbers.parseInteger(nums[1]);
+        return new Dimension(a,b);
+    }, 
+    // And this is writing consumer. It appends to stringbuffer dimension data and separator (in this case it is ':')
+    (dimension, s) -> s.append(dimension.width).append(":").append(dimension.height));
+    public static void main(String[] args) throws Exception {
+        REUtils.simpleStart();
+        // Loading it
+        Options.loadFromFile("src/test/resources/test.options");
+        System.out.println(test.get());
+        // Writing data
+        test.get().width = 25;
+        test.get().height = 126;
+        // Saving
+        Options.saveToFile("src/test/resources/test.options");
+    }
+
+```
+
+**File before**:
+test\<=\>16:9
+
+**File after**:
+test\<=\>25:126
+
+**Thats pretty easy!**
+
+
 # RENumbers
 
