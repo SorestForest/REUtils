@@ -39,6 +39,8 @@ This section provides information about REUtils class
 ## Getting method's caller
 `getCaller(Integer)` returns stacktrace element, useful when need to get caller's class name
 
+# Simple Start
+`simpleStart()` setups our printstream and uses method Time.getTime() to set timeStarted. (About him look at bottom of this file)
 
 # Options system
 
@@ -51,8 +53,8 @@ This code shows how to create custom options, get their values, load them from f
 **Example**:
 ```java
     // Creating our options
-    public static final StringOption HELLO = new StringOption("hello");
-    public static final IntegerOption INTEGER_OPTION = new IntegerOption("1",5);
+    public static final StringOption HELLO = new StringOption("hello","not loaded");
+    public static final IntegerOption INTEGER_OPTION = new IntegerOption("1",5); // 5 is default value if this option is not loaded from anywhere
     public static final FloatOption FLOAT_OPTION = new FloatOption("2",7f);
 
     public static void main(String[] args) throws Exception {
@@ -101,4 +103,5 @@ public class IntegerOption extends Option<Integer> {
     }
 }
 ```
+# RENumbers
 
