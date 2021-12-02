@@ -1,5 +1,10 @@
 package ru.REStudios.utils.options;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 /**
  * (C) Copyright REStudios 2021
  *
@@ -31,11 +36,17 @@ public abstract class Option<T> {
 
     public abstract String writeInString();
 
+    @Contract(value = "!null->!null;null->null")
     public T getOrDefault(T v){
         if (get() == null){
             return v;
         }
         return get();
+    }
+
+    @NotNull
+    public T getOrDefaultNonNull(T v){
+        return Objects.requireNonNullElse(get(),v);
     }
 
 }

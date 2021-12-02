@@ -171,7 +171,7 @@ public class RENumbers {
         String beforeDot = num.substring(0,dot);
         if (to == 0){
             int after = parseInteger(afterDot);
-            int before = parseInteger(beforeDot);
+            int before = parseInteger(String.valueOf(beforeDot.charAt(0)));
             if (after >= 5){
                 before += 1;
             }
@@ -203,7 +203,7 @@ public class RENumbers {
         String afterDot = num.substring(dot+1);
         String beforeDot = num.substring(0,dot);
         if (to == 0){
-            int after = parseInteger(afterDot);
+            int after = parseInteger(String.valueOf(afterDot.charAt(0)));
             int before = parseInteger(beforeDot);
             if (after >= 5){
                 before += 1;

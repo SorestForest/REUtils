@@ -12,7 +12,9 @@ import java.awt.*;
  */
 public class Test {
 
-    public static final ObjectOption<Dimension> test = new ObjectOption<>("test", new Dimension(), args -> {
+    public static final ObjectOption<Dimension> test = new ObjectOption<>("test", new Dimension(),
+            //
+            args -> {
         String[] nums = args[0].split(":");
         int a = RENumbers.parseInteger(nums[0]);
         int b = RENumbers.parseInteger(nums[1]);

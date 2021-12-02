@@ -3,6 +3,7 @@ package ru.REStudios.utils.files;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -22,8 +23,8 @@ public class FileHandle {
      * content - pre-saved content
      * alwaysUpdate - do we need always reload this file
      */
-    private final String relativePath;
-    private final String fullPath;
+    public final String relativePath;
+    public final String fullPath;
     private final File file;
     private boolean needReload = true;
     private byte[] content;
@@ -40,6 +41,7 @@ public class FileHandle {
         this.relativePath = asRelative(path.replace("/","\\"));
         this.fullPath = asFull(path.replace("/","\\"));
     }
+
 
     public static String[] getPaths(String unknownPath){
         String relativePath;
@@ -63,10 +65,20 @@ public class FileHandle {
         return new String[]{fullPath,relativePath};
     }
 
+    /**
+     * Returns this path as relative or full in OS (depends on what you provide)
+     * @param path relative or full
+     * @return relative or full path in OS (depends on what path you give)
+     */
     public static String asRelative(String path){
         return getPaths(path)[1];
     }
 
+    /**
+     * Returns this path as full in OS
+     * @param path relative or full
+     * @return full path
+     */
     public static String asFull(String path){
         return getPaths(path)[0];
     }
@@ -92,7 +104,16 @@ public class FileHandle {
      * @return string value in file
      * @throws IOException if occurs
      */
-    public String readAsString() throws IOException {
+    public String readAsString(Charset charset) throws IOException {
+        return new String(readAllBytes(),charset);
+    }
+
+    /**
+     * Reads this file as UTF-8 String
+     * @return string in file
+     * @throws IOException if occurs
+     */
+    public String readUTF8() throws IOException {
         return new String(readAllBytes(), StandardCharsets.UTF_8);
     }
 
@@ -101,8 +122,17 @@ public class FileHandle {
      * @return lines from file
      * @throws IOException if occurs
      */
-    public String[] readAllLines() throws IOException {
-        return readAsString().split("\n");
+    public String[] readAllLines(Charset charset) throws IOException {
+        return readAsString(charset).split("\n");
+    }
+
+    /**
+     * Reads this file as string and splits it by lines.
+     * @return lines from file.
+     * @throws IOException - if occurs
+     */
+    public String[] readAllLinesUTF8() throws IOException {
+        return readAllLines(StandardCharsets.UTF_8);
     }
 
     /**
@@ -163,8 +193,20 @@ public class FileHandle {
     }
 
     /**
-     * Returns relative path in working directiory
-     * @return relative path in working directiory
+     * Appends byte array to file
+     * @param bytes to append
+     * @throws IOException if occurs
+     */
+    public void appendBytes(byte[] bytes) throws IOException {
+        FileOutputStream stream = new FileOutputStream(file,true);
+        stream.write(bytes);
+        stream.flush();
+        stream.close();
+    }
+
+    /**
+     * Returns relative path in working directory
+     * @return relative path in working directory
      */
     public String getRelativePath() {
         return relativePath;
@@ -172,7 +214,7 @@ public class FileHandle {
 
     /**
      * Returns full path of object
-     * @return full path
+     * @return full path in OS
      */
     public String getFullPath() {
         return fullPath;

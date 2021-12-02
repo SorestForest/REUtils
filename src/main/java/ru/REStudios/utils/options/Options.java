@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * (C) Copyright REStudios 2021
@@ -39,13 +38,12 @@ public class Options {
         }
     }
     public static void loadFromFile(String file) throws IOException {
-        loadFromLines(new FileHandle(file).readAllLines());
+        loadFromLines(new FileHandle(file).readAllLinesUTF8());
     }
 
     public static String saveToString(){
         StringBuilder sb = new StringBuilder();
-        Set<Map.Entry<String,Option<?>>> set = OPTIONS.entrySet();
-        Iterator<Map.Entry<String,Option<?>>> it = set.iterator();
+        Iterator<Map.Entry<String,Option<?>>> it = OPTIONS.entrySet().iterator();
         while (it.hasNext()){
             Map.Entry<String,Option<?>> entry = it.next();
             String ser = entry.getValue().writeInString();
