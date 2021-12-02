@@ -103,5 +103,80 @@ public class IntegerOption extends Option<Integer> {
     }
 }
 ```
+## Using ObjectOption
+
+`ObjectOption` is an option, that can hold any object. You need to write only the serializarion and deserialization of this object using Factory<T,String> and BiConsumer<T,StringBuffer>
+
+```java
+    // Creating our option
+    public static final ObjectOption<Dimension> test = new ObjectOption<>("test", new Dimension(), 
+    // This is a creating factory. It get's string value and parses as Dimension (two integers)
+    args -> {
+        String[] nums = args[0].split(":");
+        int a = RENumbers.parseInteger(nums[0]);
+        int b = RENumbers.parseInteger(nums[1]);
+        return new Dimension(a,b);
+    }, 
+    // And this is writing consumer. It appends to stringbuffer dimension data and separator (in this case it is ':')
+    (dimension, s) -> s.append(dimension.width).append(":").append(dimension.height));
+    public static void main(String[] args) throws Exception {
+        REUtils.simpleStart();
+        // Loading it
+        Options.loadFromFile("src/test/resources/test.options");
+        System.out.println(test.get());
+        // Writing data
+        test.get().width = 25;
+        test.get().height = 126;
+        // Saving
+        Options.saveToFile("src/test/resources/test.options");
+    }
+
+```
+
+**File before**:
+test\<=\>16:9
+
+**File after**:
+test\<=\>25:126
+
+**Thats pretty easy!**
+
+
 # RENumbers
 
+`RENumbers` is a class that help working with numbers. Let's start with main features
+
+## Parsing strings
+
+Methods `parseInteger(String)`, `parseFloat(String)` and `parseDouble(String)` will parse the provided string and return their values, or if error occurs return 0
+
+**Example**:
+```java
+  int a = RENumbers.parseInteger("1");
+  int b = RENumbers.parseInteger("blabla");
+  System.out.println(a); // 1
+  System.out.println(b); // 0
+```
+
+## Clamping values
+
+Methods `keepInRange(num,num,num)`, where is num is any number will keep first value in range [min;max]
+
+**Example**:
+```java
+   int a = RENumbers.keepInRange(3,5,6); // a = 5
+   int b = RENumbers.keepInRange(8,6,7); // b = 7
+   int c = RENumbers.keepInRange(5,1,6); // c = 5
+```
+
+## Rounding numbers
+
+Method `roundTo(num,int)` will round integer to provided integer. 
+
+**Example**:
+```java
+    double a = RENumbers.roundTo(5.56d,1); // a = 5.6, because after second five is six. It's bigger than five.
+    double b = RENumbers.roundTo(5.5d,0); // b = 6, because first number after dot is 5 and it's equals five.
+```
+
+### There are also a lot of useful methods, but I won't talk about them because their usage is really rare.
