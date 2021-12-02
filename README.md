@@ -75,7 +75,7 @@ That's it!
 
 ## Creating custom options
 
-To create custom option you need to extend class `Option<T>`, where is <T>, is your option class. (See example below)
+To create custom option you need to extend class `Option<T>`, where is T is your option class. (See example below)
 
 ```java
 /**
