@@ -31,4 +31,11 @@ public abstract class Option<T> {
 
     public abstract String writeInString();
 
+    public T getOrDefault(T v){
+        if (get() == null){
+            return v;
+        }
+        return get();
+    }
+
 }

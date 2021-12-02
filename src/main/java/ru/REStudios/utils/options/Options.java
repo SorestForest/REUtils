@@ -48,7 +48,8 @@ public class Options {
         Iterator<Map.Entry<String,Option<?>>> it = set.iterator();
         while (it.hasNext()){
             Map.Entry<String,Option<?>> entry = it.next();
-            sb.append(entry.getKey()).append("<=>").append(entry.getValue().writeInString());
+            String ser = entry.getValue().writeInString();
+            sb.append(entry.getKey()).append("<=>").append(ser);
             if (it.hasNext()){
                 sb.append("\n");
                 continue;

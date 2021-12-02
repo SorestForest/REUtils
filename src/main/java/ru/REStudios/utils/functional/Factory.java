@@ -1,5 +1,7 @@
 package ru.REStudios.utils.functional;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * (C) Copyright REStudios 2021
  *
@@ -15,5 +17,7 @@ public interface Factory<V,A> {
      * @param args to parse
      * @return factory parsed value
      */
-    V create(A[] args);
+    @Nullable
+    @SuppressWarnings("unchecked")
+    V create(A... args);
 }
