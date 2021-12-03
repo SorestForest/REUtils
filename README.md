@@ -141,6 +141,22 @@ test\<=\>25:126
 
 **Thats pretty easy!**
 
+## Using option groups
+
+Option groups can help you save different options in different files.
+When you creating your option you need to call method `addGroup(OptionGroup)` to add it.
+**Something like this**:
+```java
+    public static final OptionGroup GROUP = new OptionGroup("ints"); // creating our group. "ints" - is a file name to save DON'T CREATE GROUPS FOR NO REASON.
+    // IT BINDS TO THE INSTANCE!
+    public static final IntegerOption OPTION = (IntegerOption) new IntegerOption("option",5).addGroup(GROUP); // adding our group to option.
+```
+
+Now, you can save them in different files. GROUP - is our group in this case.
+
+```java
+     Options.saveToFile(GROUP);
+```
 
 # RENumbers
 
@@ -180,3 +196,194 @@ Method `roundTo(num,int)` will round integer to provided integer.
 ```
 
 ### There are also a lot of useful methods, but I won't talk about them because their usage is really rare.
+
+# Event System
+
+My Event System is really easy to use. Let's walk around some classes and methods.
+
+## Creating custom events
+
+First we will create our event class. This is really easy!
+
+**Example**:
+```java
+        // First we declare our class extending Event
+        public class AnotherEvent extends Event {
+        
+        // Putting here some data
+        public int a;
+        
+        // And constuctor
+        public AnotherEvent(int a) {
+            this.a = a;
+        }
+    }
+```
+
+## Creating our handler
+
+Then we need to create a `handler`. It's pretty easy! 
+
+**Example**:
+
+```java
+        // This is our handler. We implementing Listener to mark him.
+        public class TestHandler implements Listener {
+        
+        // And marking methods to our system. If this annotation is not present, handler won't work.
+        @EventListener // by this annotation we don't need to parse method's name. You can call whatever you want!
+        public void sleepingInTheRoom(TestEvent event){
+            print(event.s);
+        }
+    
+        // You can make even two!
+        // here
+        @EventListener
+        public void onOtherEvent(AnotherEvent event){
+            print(event.a);
+        }
+        
+        // and here!
+        @EventListener
+        public void onOtherEventAgain(AnotherEvent event){
+            print(event.a+" again!");
+        }
+        
+        // This method won't be marked as listener
+        public void print(Object o){
+           System.out.println(o);
+        }
+    }
+```
+
+After creating we need to call a `EventManager.registerHandler(Listener)` method. It will setup our listener to work in API.
+
+**Now we have everything to go!**
+
+## Calling events
+
+Now, once everything is ready we just call `EventManager.parseEvent(Event)` and that's it! All listeners parsed event! Yes!
+
+**Here is full example**:
+
+```java
+import ru.REStudios.utils.event.Event;
+import ru.REStudios.utils.event.EventListener;
+import ru.REStudios.utils.event.EventManager;
+import ru.REStudios.utils.event.Listener;
+import ru.REStudios.utils.oop.REUtils;
+
+/**
+ * (C) Copyright REStudios 2021
+ *
+ * @author REStudios
+ */
+public class Test {
+
+    public static final String path = "src/test/resources/";
+
+
+    public static void main(String[] args) throws Exception {
+        REUtils.simpleStart();
+        TestEvent event = new TestEvent("hello forest");
+        AnotherEvent a = new AnotherEvent(14);
+        TestHandler handler = new TestHandler();
+        EventManager.registerHandler(handler);
+        EventManager.parseEvent(event); 
+        EventManager.parseEvent(a); // don't need to call it twice. system will parse it twice automatically
+    }
+
+    public static class TestEvent extends Event {
+
+        public String s;
+
+        public TestEvent(String s){
+            this.s = s;
+        }
+
+    }
+
+    public static class AnotherEvent extends Event {
+
+        public int a;
+
+        public AnotherEvent(int a) {
+            this.a = a;
+        }
+    }
+
+    public static class TestHandler implements Listener {
+
+        // And marking methods to our system. If this annotation is not present, handler won't work.
+        @EventListener
+        public void onTestEvent(TestEvent event){
+            print(event.s);
+        }
+
+        // You can make even two!
+        @EventListener
+        public void onOtherEvent(AnotherEvent event){
+            print(event.a);
+        }
+
+        @EventListener
+        public void onOtherEventAgain(AnotherEvent event){
+            print(event.a+" again!");
+        }
+
+        public void print(Object o){
+            System.out.println(o);
+        }
+    }
+
+}
+
+```
+
+# RECollections
+
+`RECollections` is a utility class for work with collections. 
+
+## Reversing arrays
+
+You can simply reverse array using `RECollections.reverse(anArray)`.
+
+```java
+    int[] reversed = RECollections.reverse(new int[]{3,2,1}); // reversed = [1,2,3]
+```
+
+## Combining two arrays
+
+You can combine two different arrays into one.
+
+```java
+    int[] combined = RECollections.collapse(new int[]{1,2,3},new int[]{4,5,6}); // combined = [1,2,3,4,5,6]
+```
+
+# File handling
+
+Simple class `FileHandle` can handle any file to you. You can simply read,write, append strings and bytes to file with optimization.
+
+## Setup
+
+Just create an `FileHandle` instance, and provide path (it doesn't matter relative or full)
+
+```java
+    FileHandle a = new FileHandle("test.txt"); // points to one file
+    FileHandle b = new FileHandle("D:\test.txt"); // points to one file
+```
+
+## Reading, Writing, Appending
+
+Now you can use any reading, writing methods to file. Just go out with documentation in class.
+
+## Updating file, and always updating
+
+Sometimes you need fresh information from file. To request file update call `reloadContent()` method in `FileHandle` and on next reading it will return fresh info.
+
+`NOTE: File always updating itself when you write to it`
+
+And when you need ALWAYS fresh information, when creating class call method `alwaysUpdate()`, that will enable this function and on every read it will reload the content.
+
+
+# And yes, there is also some small feautres, like NonNullSupplier, Factories, and so on. I won't talk about them, find them in lib if you need them.
