@@ -6,7 +6,7 @@
 
     <groupId>ru.REStudios</groupId>
     <artifactId>REUtils</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <dependencies>
         <dependency>
             <groupId>org.jetbrains</groupId>
