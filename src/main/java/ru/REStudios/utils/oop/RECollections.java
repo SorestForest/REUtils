@@ -3,8 +3,6 @@ package ru.REStudios.utils.oop;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 
 /**
  * (C) Copyright REStudios 2021
@@ -16,25 +14,6 @@ public class RECollections {
 
     private RECollections(){}
 
-
-    /**
-     * Removes T objects from collection
-     * @param collection which is going to be clear
-     * @param toRemove objects to remove
-     * @param <T> parameter for you're everything
-     * @return cleaned collection
-     */
-    @SafeVarargs
-    public static <T> Collection<T> removeAll(Collection<T> collection, T... toRemove){
-        ArrayList<T> out = new ArrayList<>();
-        ArrayList<T> remove = new ArrayList<>(Arrays.asList(toRemove));
-        for (T string : collection) {
-            if(!remove.contains(string)){
-                out.add(string);
-            }
-        }
-        return out;
-    }
 
     /**
      * Reverses given array
@@ -68,11 +47,5 @@ public class RECollections {
         output.remove(0);
         output.remove(a.length);
         return output.toArray(a);
-    }
-
-
-    @SafeVarargs
-    public static <T> T[] asArray(T... values){
-        return values;
     }
 }

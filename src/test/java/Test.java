@@ -1,6 +1,9 @@
+import ru.REStudios.utils.event.Event;
+import ru.REStudios.utils.event.EventListener;
+import ru.REStudios.utils.event.EventManager;
+import ru.REStudios.utils.event.Listener;
 import ru.REStudios.utils.oop.REUtils;
 import ru.REStudios.utils.options.OptionGroup;
-import ru.REStudios.utils.options.Options;
 import ru.REStudios.utils.options.custom.IntegerOption;
 
 /**
@@ -12,31 +15,62 @@ public class Test {
 
     public static final String path = "src/test/resources/";
 
-    public static final OptionGroup ints = new OptionGroup(path+"integers");
-    public static final OptionGroup other = new OptionGroup(path+"another");
-    public static final IntegerOption first = (IntegerOption) new IntegerOption("first",5).addGroup(ints);
-    public static final IntegerOption third = (IntegerOption) new IntegerOption("third",25).addGroup(ints);
-    public static final IntegerOption second = (IntegerOption) new IntegerOption("second",7).addGroup(other);
+    public static final OptionGroup GROUP = new OptionGroup("ints");
+    public static final IntegerOption OPTION = (IntegerOption) new IntegerOption("option",5).addGroup(GROUP);
 
     public static void main(String[] args) throws Exception {
         REUtils.simpleStart();
-        Options.loadFromFile(path+"another.options");
-        Options.loadFromFile(path+"integers.options");
+        TestEvent event = new TestEvent("hello forest");
+        AnotherEvent a = new AnotherEvent(14);
+        TestHandler handler = new TestHandler();
+        EventManager.registerHandler(handler);
+        EventManager.parseEvent(event);
+        EventManager.parseEvent(a);
 
-        System.out.println(first);
-        System.out.println(second);
-        System.out.println(third);
 
-        System.out.println(first.isBelongs(ints));
-        System.out.println(second.isBelongs(ints));
-        System.out.println(third.isBelongs(ints));
+    }
 
-        System.out.println(first.isBelongs(other));
-        System.out.println(second.isBelongs(other));
-        System.out.println(third.isBelongs(other));
+    public static class TestEvent extends Event {
 
-        Options.saveToFile(ints);
-        Options.saveToFile(other); 
+        public String s;
+
+        public TestEvent(String s){
+            this.s = s;
+        }
+
+    }
+
+    public static class AnotherEvent extends Event {
+
+        public int a;
+
+        public AnotherEvent(int a) {
+            this.a = a;
+        }
+    }
+
+    public static class TestHandler implements Listener {
+
+        // And marking methods to our system. If this annotation is not present, handler won't work.
+        @EventListener
+        public void onTestEvent(TestEvent event){
+            print(event.s);
+        }
+
+        // You can make even two!
+        @EventListener
+        public void onOtherEvent(AnotherEvent event){
+            print(event.a);
+        }
+
+        @EventListener
+        public void onOtherEventAgain(AnotherEvent event){
+            print(event.a+" again!");
+        }
+
+        public void print(Object o){
+            System.out.println(o);
+        }
     }
 
 }

@@ -93,7 +93,6 @@ public class FileHandle {
             FileInputStream stream = new FileInputStream(file);
             content = stream.readAllBytes();
             needReload = false;
-
             stream.close();
         }
         return content;
@@ -166,6 +165,7 @@ public class FileHandle {
         FileOutputStream stream = new FileOutputStream(file);
         stream.write(bytes);
         stream.close();
+        reloadContent();
     }
 
     /**
@@ -178,6 +178,7 @@ public class FileHandle {
         writer.write(s);
         writer.flush();
         writer.close();
+        reloadContent();
     }
 
     /**
@@ -190,6 +191,7 @@ public class FileHandle {
         writer.write(s);
         writer.flush();
         writer.close();
+        reloadContent();
     }
 
     /**
@@ -202,6 +204,7 @@ public class FileHandle {
         stream.write(bytes);
         stream.flush();
         stream.close();
+        reloadContent();
     }
 
     /**

@@ -60,7 +60,10 @@ public abstract class Option<T> {
 
     @NotNull
     public T getOrDefaultNonNull(T v){
-        return Objects.requireNonNullElse(get(),v);
+        if (get() == null){
+            return Objects.requireNonNull(v);
+        }
+        return get();
     }
 
     @Override
