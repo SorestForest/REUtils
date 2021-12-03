@@ -3,6 +3,7 @@ package ru.REStudios.utils.options;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -15,6 +16,8 @@ public abstract class Option<T> {
     private T value;
     String inFile;
 
+    ArrayList<OptionGroup> myGroups = new ArrayList<>();
+
     public Option(String inFileName,T defaultValue){
         this.value = defaultValue;
         inFile = inFileName;
@@ -24,6 +27,17 @@ public abstract class Option<T> {
     public T get() {
         return value;
     }
+
+    public Option<T> addGroup(OptionGroup group){
+        myGroups.add(group);
+        return this;
+    }
+
+    public boolean isBelongs(OptionGroup group){
+        return group.isBelongs(this);
+    }
+
+
 
     @SuppressWarnings("all")
     public T set(T value){
@@ -49,4 +63,8 @@ public abstract class Option<T> {
         return Objects.requireNonNullElse(get(),v);
     }
 
+    @Override
+    public String toString() {
+        return get().toString();
+    }
 }

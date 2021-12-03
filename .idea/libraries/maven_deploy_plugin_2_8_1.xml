@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="maven-deploy-plugin-2.8.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/maven-deploy-plugin-2.8.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
