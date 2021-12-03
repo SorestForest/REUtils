@@ -2,7 +2,6 @@ package ru.REStudios.utils.options.custom;
 
 import org.jetbrains.annotations.NotNull;
 import ru.REStudios.utils.functional.Factory;
-import ru.REStudios.utils.oop.RECollections;
 import ru.REStudios.utils.options.Option;
 
 import java.util.function.BiConsumer;
@@ -26,7 +25,7 @@ public class ObjectOption<T> extends Option<T> {
 
     @Override
     public void setFromString(String str) {
-        set(factory.create(RECollections.asArray(str)));
+        set(factory.create(str));
     }
 
     @Override
