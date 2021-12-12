@@ -89,7 +89,6 @@ public class Options {
 
     public static void saveToFile(OptionGroup group) throws IOException {
         FileHandle handle = new FileHandle(group.file());
-        System.out.println(handle.getFullPath());
         handle.writeString(saveByGroup(group));
     }
 

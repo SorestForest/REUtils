@@ -208,6 +208,38 @@ public class FileHandle {
     }
 
     /**
+     * Cleans file
+     */
+    public void clean() throws IOException {
+        FileOutputStream stream = new FileOutputStream(file,false);
+        stream.write(new byte[0]);
+        stream.flush();
+        stream.close();
+        reloadContent();
+    }
+
+    /**
+     * Copies this content to provided handle
+     * @param copyTo destination handle
+     */
+    public void copyToHandleUTF8(FileHandle copyTo, boolean append) throws IOException {
+        copyToHandle(copyTo,append,StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Copies this content to provided handle
+     * @param copyTo destination handle
+     */
+    public void copyToHandle(FileHandle copyTo, boolean append,Charset c) throws IOException {
+        if (!append){
+            copyTo.clean();
+        }
+        for (String s : readAllLines(c)){
+            copyTo.appendString(s);
+        }
+    }
+
+    /**
      * Returns relative path in working directory
      * @return relative path in working directory
      */

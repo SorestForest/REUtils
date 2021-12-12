@@ -22,8 +22,7 @@ public class EventManager {
     public static void registerHandler(Listener listener){
         Class<? extends Listener> clazz = listener.getClass();
         for (Method declaredMethod : clazz.getDeclaredMethods()) {
-            if (declaredMethod.getParameterTypes().length != 1){ continue; }
-            if (declaredMethod.isAnnotationPresent(EventListener.class)){
+            if (declaredMethod.getParameterTypes().length == 1 && declaredMethod.isAnnotationPresent(EventListener.class) ){
                 listeners.add(declaredMethod);
                 instances.put(declaredMethod,listener);
             }
