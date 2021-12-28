@@ -3,10 +3,10 @@
   <groupId>ru.REStudios</groupId>
   <artifactId>REUtils</artifactId>
   <versioning>
-    <release>1.2.2</release>
+    <release>1.2.3</release>
     <versions>
-      <version>1.2.2</version>
+      <version>1.2.3</version>
     </versions>
-    <lastUpdated>20211212072513</lastUpdated>
+    <lastUpdated>20211228160827</lastUpdated>
   </versioning>
 </metadata>
